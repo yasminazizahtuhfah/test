@@ -17,7 +17,7 @@ class identitasController extends Controller
         $katakunci = $request->katakunci;
         $jumlahbaris = 4;
         if (strlen($katakunci)) {
-            $data = Identitas::where('id', 'like', "%$katakunci%")
+            $data = Identitas::where('like', "%$katakunci%")
                 ->orWhere('nama', 'like', "%$katakunci%")
                 ->orWhere('tempat_lahir', 'like', "%$katakunci%")
                 ->orWhere('tanggal_lahir', 'like', "%$katakunci%")
@@ -50,7 +50,6 @@ class identitasController extends Controller
      */
     public function store(Request $request)
     {
-        Session::flash('id', $request->id);
         Session::flash('nama', $request->nama);
         Session::flash('tempat_lahir', $request->tempat_lahir);
         Session::flash('tanggal_lahir', $request->tanggal_lahir);
@@ -58,12 +57,6 @@ class identitasController extends Controller
         Session::flash('agama', $request->agama);
         Session::flash('kewarganegaraan', $request->kewarganegaraan);
         Session::flash('status', $request->status);
-
-        $validator = Validator::make($request->all(), [
-            'id' => 'unique:identitas' 
-        ], [
-            'id.unique' => 'ID sudah ada dalam database. Pilih ID yang berbeda.'
-        ]);
         
     
         if ($validator->fails()) {
